@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.4.4</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.example</groupId>
+	<artifactId>demo</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>demo</name>
+	<description>Demo project for Spring Boot</description>
+	<properties>
+		<java.version>11</java.version>
+		
+<!-- checkstyle -->
+	    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+<!--	    <checkstyle.config.location>checkstyle.xml</checkstyle.config.location>  -->
+<!-- checkstyle -->
+
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+	       <plugin> 
+	             <groupId>org.codehaus.mojo</groupId> 
+	             <artifactId>findbugs-maven-plugin</artifactId> 
+	             <version>3.0.1</version> 
+	             <configuration> 
+	             <threshold>High</threshold> 
+	             <effort>Default</effort> 
+	             <findbugsXmlOutput>true</findbugsXmlOutput> 
+	             <findbugsXmlWithMessages>true</findbugsXmlWithMessages> 
+	             <xmlOutput>true</xmlOutput> 
+	             <findbugsXmlOutputDirectory>target/site</findbugsXmlOutputDirectory> 
+	             </configuration> 
+	       </plugin>
+
+			<!-- jacoco plugin -->
+			<plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <phase>test-compile</phase>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        
+                                <configuration>
+                <!-- Sets the path to the file which contains the execution data. -->
+                <destFile>D:/gmacs/workspace/demo/target/coverage-reports/jacoco-ut.exec</destFile>
+                <!--
+                    Sets the name of the property containing the settings
+                    for JaCoCo runtime agent.
+                -->
+                <propertyName>surefireArgLine</propertyName>
+            </configuration>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                                    <configuration>
+                <!-- Sets the path to the file which contains the execution data. -->
+                <dataFile>D:/gmacs/workspace/demo/target/coverage-reports/jacoco-ut.exec</dataFile>
+                <!-- Sets the output directory for the code coverage report. -->
+                <outputDirectory>D:/gmacs/workspace/demo/target/jacoco-ut</outputDirectory>
+            </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <propertyName>jacocoArgs</propertyName>
+                    <excludes>
+                        <exclude>**/test/**</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            
+		</plugins>
+	</build>
+
+<!-- 覆盖率报告 -->
+  <reporting>  
+    <plugins>  
+       <plugin>  
+          <groupId>org.apache.maven.plugins</groupId>  
+          <artifactId>maven-checkstyle-plugin</artifactId>  
+          <version>2.9.1</version>  
+       </plugin>  
+  
+       <plugin>  
+          <groupId>org.apache.maven.plugins</groupId>  
+          <artifactId>maven-jxr-plugin</artifactId>  
+          <version>2.3</version>  
+       </plugin>  
+
+       <plugin> 
+              <groupId>org.codehaus.mojo</groupId> 
+              <artifactId>findbugs-maven-plugin</artifactId> 
+              <version>3.0.1</version> 
+              <configuration> 
+              <xmlOutput>true</xmlOutput> 
+              <!-- Optional directoryto put findbugs xdoc xml report --> 
+              <!--<xmlOutputDirectory>target/site</xmlOutputDirectory>--> 
+              <findbugsXmlOutput>true</findbugsXmlOutput> 
+              <findbugsXmlWithMessages>true</findbugsXmlWithMessages> 
+              </configuration> 
+       </plugin>
+
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-surefire-plugin</artifactId>
+			<configuration>
+			    <argLine>${jacocoArgs} -Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8</argLine>
+				<testFailureIgnore>true</testFailureIgnore>
+			</configuration>
+		</plugin>
+		
+    </plugins>  
+  </reporting>
+
+</project>
