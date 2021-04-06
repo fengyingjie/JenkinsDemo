@@ -67,16 +67,6 @@
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
-                        
-                                <configuration>
-                <!-- Sets the path to the file which contains the execution data. -->
-                <destFile>D:/gmacs/workspace/demo/target/coverage-reports/jacoco-ut.exec</destFile>
-                <!--
-                    Sets the name of the property containing the settings
-                    for JaCoCo runtime agent.
-                -->
-                <propertyName>surefireArgLine</propertyName>
-            </configuration>
                     </execution>
                     <execution>
                         <id>report</id>
@@ -84,12 +74,6 @@
                         <goals>
                             <goal>report</goal>
                         </goals>
-                                    <configuration>
-                <!-- Sets the path to the file which contains the execution data. -->
-                <dataFile>D:/gmacs/workspace/demo/target/coverage-reports/jacoco-ut.exec</dataFile>
-                <!-- Sets the output directory for the code coverage report. -->
-                <outputDirectory>D:/gmacs/workspace/demo/target/jacoco-ut</outputDirectory>
-            </configuration>
                     </execution>
                 </executions>
                 <configuration>
@@ -99,12 +83,28 @@
                     </excludes>
                 </configuration>
             </plugin>
-            
+	   		<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<surefire.includesFile>**/*Test*.java</surefire.includesFile>
+				    <argLine>-Dfile.encoding=UTF-8  -Xmx2048m -Xss2m -Dsun.jnu.encoding=UTF-8
+				    ${jacocoArgs} </argLine>
+					<testFailureIgnore>true</testFailureIgnore>
+					 <reuseForks>false</reuseForks>
+                    <workingDirectory>tmp</workingDirectory>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
 <!-- 覆盖率报告 -->
-  <reporting>  
+  <reporting>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.3</version>
+    </plugin>
     <plugins>  
        <plugin>  
           <groupId>org.apache.maven.plugins</groupId>  
@@ -129,17 +129,7 @@
               <findbugsXmlOutput>true</findbugsXmlOutput> 
               <findbugsXmlWithMessages>true</findbugsXmlWithMessages> 
               </configuration> 
-       </plugin>
-
-		<plugin>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-surefire-plugin</artifactId>
-			<configuration>
-			    <argLine>${jacocoArgs} -Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8</argLine>
-				<testFailureIgnore>true</testFailureIgnore>
-			</configuration>
-		</plugin>
-		
+       </plugin>		
     </plugins>  
   </reporting>
 
