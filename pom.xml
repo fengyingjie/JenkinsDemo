@@ -100,12 +100,12 @@
 
 <!-- 覆盖率报告 -->
   <reporting>
+    <plugins>  
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
         <version>0.8.3</version>
     </plugin>
-    <plugins>  
        <plugin>  
           <groupId>org.apache.maven.plugins</groupId>  
           <artifactId>maven-checkstyle-plugin</artifactId>  
